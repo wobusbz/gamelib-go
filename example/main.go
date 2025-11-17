@@ -43,8 +43,8 @@ func ExampleVector() {
 func ExampleSkipList() {
 	skip := zskip.NewSkipList(10)
 	skip.ZslInsert(1, "1")
-	skip.ZslInsert(2, "2")
 	skip.ZslInsert(3, "3")
+	skip.ZslInsert(2, "2")
 	skip.TestPrint2()
 	skip.DeleteFirst()
 	skip.DeleteLast()
