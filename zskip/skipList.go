@@ -224,29 +224,38 @@ func (s *SkipList) ZslGetNodeBySocre(score uint64) *SkipNode {
 }
 
 func (s *SkipList) ZslRange(start, end int, reverse bool) []*SkipNode {
+	if s.length == 0 {
+		return nil
+	}
+	if start < 0 {
+		start = 0
+	}
+	if end >= s.length {
+		end = s.length - 1
+	}
 	if start > end {
 		return nil
 	}
-	rank := max(s.length, end)
-	if reverse {
-		rank = end - start
-	} else {
-		rank = start
-	}
-	node := s.ZslGetNodeByRank(rank)
-	if node == nil {
-		return nil
-	}
-	var nodes = make([]*SkipNode, 0)
-	for span := end - start + 1; span > 0; {
-		span--
-		nodes = append(nodes, node)
-		if reverse {
-			node = node.backward
-		} else {
+
+	var nodes []*SkipNode
+
+	if !reverse {
+		node := s.ZslGetNodeByRank(start + 1)
+		for i := start; i <= end && node != nil; i++ {
+			nodes = append(nodes, node)
 			node = node.levels[0].forward
 		}
+	} else {
+		node := s.tail
+		for i := 0; i < start && node != nil; i++ {
+			node = node.backward
+		}
+		for i := start; i <= end && node != nil; i++ {
+			nodes = append(nodes, node)
+			node = node.backward
+		}
 	}
+
 	return nodes
 }
 
