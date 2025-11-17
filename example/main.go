@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"gamelib-go/vector"
+	"gamelib-go/xstrings"
 	"gamelib-go/zskip"
 	"math"
 	"math/rand"
@@ -65,4 +66,8 @@ func ExampleSkipDict() {
 func main() {
 	ExampleSkipList()
 	ExampleSkipDict()
+	var a = "1,2,3,4|5,6,7,8"
+	fmt.Println(a)
+	fmt.Println(xstrings.SplitNumber[int32](a, ",|"))
+	fmt.Println(rand.Int() & 10)
 }
