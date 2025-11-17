@@ -16,7 +16,7 @@ func NewZskDict(level int) *ZskDict {
 
 func (z *ZskDict) ZslSet(k string, score uint64) {
 	if _, ok := z.dict[k]; ok {
-		z.sl.ZslDelete(score)
+		z.sl.ZslDelete(score, k)
 	}
 	z.sl.ZslInsert(score, k)
 	z.dict[k] = score
@@ -49,7 +49,7 @@ func (z *ZskDict) ZslDelete(k string) {
 	if !ok {
 		return
 	}
-	z.sl.ZslDelete(score)
+	z.sl.ZslDelete(score, k)
 	delete(z.dict, k)
 }
 

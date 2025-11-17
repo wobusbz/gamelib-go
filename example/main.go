@@ -5,6 +5,9 @@ import (
 	"gamelib-go/vector"
 	"gamelib-go/zskip"
 	"math"
+	"math/rand"
+	"strconv"
+	"time"
 )
 
 func ExampleVector() {
@@ -49,14 +52,14 @@ func ExampleSkipList() {
 }
 
 func ExampleSkipDict() {
-	zskip.G_ZskDict.ZslSetEvictFront("1", 1, 30)
-	zskip.G_ZskDict.ZslSetEvictFront("2", 2, 30)
-	zskip.G_ZskDict.ZslSetEvictFront("3", 3, 30)
-	zskip.G_ZskDict.ZslSetEvictFront("4", 4, 30)
-	zskip.G_ZskDict.ZslSetEvictFront("5", 5, 30)
-	zskip.G_ZskDict.TestPrint2()
-	fmt.Println(zskip.G_ZskDict.ZslRange(0, math.MaxInt, true))
+	s := time.Now()
+	for range 50 {
+		x := rand.Int() % 100000
+		zskip.G_ZskDict.ZslSetEvictFront(strconv.Itoa(x), uint64(x), 30)
+	}
+	fmt.Println(zskip.G_ZskDict.ZslRange(0, math.MaxInt, true), zskip.G_ZskDict.ZslLen())
 	fmt.Println(zskip.G_ZskDict.ZslRange(0, math.MaxInt, false), zskip.G_ZskDict.ZslLen())
+	fmt.Println(time.Since(s))
 }
 
 func main() {
